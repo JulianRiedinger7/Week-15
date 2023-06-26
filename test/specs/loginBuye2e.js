@@ -84,7 +84,7 @@ describe('Specific usernames test', () => {
       const detailsProductTitleText = await DetailsPage.productTitle.getText()
       await expect(detailsProductTitleText).toEqual(productTitleText)
       await DetailsPage.addToCartBtn.click()
-      await expect(DetailsPage.cartBadge).toBeDisplayed()
+      await DetailsPage.cartBadge.waitForExist({ timeout: 2000 })
       await expect(DetailsPage.cartBadge).toHaveTextContaining('1')
     })
 
@@ -92,11 +92,16 @@ describe('Specific usernames test', () => {
       const detailsProductTitleText = await DetailsPage.productTitle.getText()
       await ProductsPage.cartIcon.click()
 
-      await expect(CartPage.productTitle).toBeDisplayed()
-      await expect(CartPage.checkoutBtn).toBeDisplayed()
-
-      const cartProductTitleText = await CartPage.productTitle.getText()
-      await expect(cartProductTitleText).toEqual(detailsProductTitleText)
+      await CartPage.productTitle.waitForExist({ timeout: 2000 })
+      await CartPage.productTitle.waitUntil(
+        async () => {
+          return (await CartPage.productTitle.getText()) === detailsProductTitleText
+        },
+        {
+          timeout: 3000,
+          timeoutMsg: 'Expected details product to be the same as cart product',
+        }
+      )
 
       await CartPage.checkoutBtn.click()
       await expect(CheckoutPage.firstNameInput).toBeDisplayed()
@@ -109,8 +114,6 @@ describe('Specific usernames test', () => {
 
       await CheckoutPage.checkout('', '', '')
       await expect(CheckoutPage.errorMessage).toHaveTextContaining('Error: First Name is required')
-
-      console.log(await CheckoutPage.errorMessage.getText())
 
       await CheckoutPage.checkout('test', '', '')
       await expect(CheckoutPage.errorMessage).toHaveTextContaining('Error: Last Name is required')
