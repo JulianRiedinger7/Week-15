@@ -17,7 +17,7 @@ The objective of the project is to check all the accepted users and see the beha
 This project uses Allure Reporter to generate comprehensive and visually appealing test reports.
 It capture detailed information about test execution and presents it in an easy-to-read format. This also makes it easier to analyze and debug any issue that may arise during test runs.
 
-![Allure report](https://i.imgur.com/nZsLrHa.png)
+![Allure report](https://i.imgur.com/KkzeiyB.png)
 
 To run allure reporter you should use the following command:
 
