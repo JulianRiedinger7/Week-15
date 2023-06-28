@@ -11,6 +11,14 @@ class ProductsPage {
     return $('div.inventory_list >div .inventory_item_description > div.pricebar > div.inventory_item_price')
   }
 
+  get firstProductImg() {
+    return $('div.inventory_item:nth-child(1) > div > a > img')
+  }
+
+  get secondProductImg() {
+    return $('div.inventory_item:nth-child(2) > div > a > img')
+  }
+
   get productsFilter() {
     return $('.product_sort_container')
   }

@@ -64,7 +64,33 @@ describe('Specific usernames test', () => {
       expect(duration).toBeLessThan(maxDuration, `Login took longer than ${maxDuration} miliseconds`)
     })
 
+    it(`${username} should see different images between products`, async () => {
+      await expect(ProductsPage.firstProductImg).toBeDisplayed()
+      await expect(ProductsPage.secondProductImg).toBeDisplayed()
+
+      const srcFirstImage = await ProductsPage.firstProductImg.getAttribute('src')
+      const srcSecondImage = await ProductsPage.secondProductImg.getAttribute('src')
+
+      await expect(srcFirstImage).not.toEqual(srcSecondImage)
+    })
+
+    it(`${username} should see error message when checkout without product added`, async () => {
+      await expect(ProductsPage.cartIcon).toBeDisplayed()
+
+      await ProductsPage.cartIcon.click()
+
+      await CartPage.productTitle.waitForExist({ reverse: true })
+      await expect(CartPage.checkoutBtn).toBeDisplayed()
+
+      await CartPage.checkoutBtn.click()
+      const actualUrl = await browser.getUrl()
+      await expect(actualUrl).toEqual('https://www.saucedemo.com/cart.html')
+      await CheckoutPage.errorMessage.waitForExist({ timeout: 2000 })
+    })
+
     it(`${username} should should filter and see different items`, async () => {
+      await CheckoutPage.cancelBtn.click()
+      await CartPage.continueShoppingBtn.click()
       await expect(ProductsPage.productsFilter).toBeDisplayed()
 
       let productPriceBeforeFiltering = await ProductsPage.firstProductPrice.getText()

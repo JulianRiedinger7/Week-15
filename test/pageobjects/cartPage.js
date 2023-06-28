@@ -6,6 +6,10 @@ class CartPage {
   get checkoutBtn() {
     return $('#checkout')
   }
+
+  get continueShoppingBtn() {
+    return $('#continue-shopping')
+  }
 }
 
 export default new CartPage()

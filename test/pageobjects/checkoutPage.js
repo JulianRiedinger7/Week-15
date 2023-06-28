@@ -15,6 +15,10 @@ class CheckoutPage {
     return $('#continue')
   }
 
+  get cancelBtn() {
+    return $('#cancel')
+  }
+
   get totalPrice() {
     return $('#checkout_summary_container > div > div.summary_info > div.summary_info_label.summary_total_label')
   }
